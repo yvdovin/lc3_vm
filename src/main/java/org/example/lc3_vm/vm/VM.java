@@ -5,6 +5,7 @@ import org.example.lc3_vm.vm.processor.Register;
 import org.example.lc3_vm.vm.utils.Utils;
 
 import static org.example.lc3_vm.vm.memory.Memory.memoryRead;
+import static org.example.lc3_vm.vm.processor.Processor.*;
 
 
 public class VM {
@@ -24,52 +25,52 @@ public class VM {
             Processor.registerWrite(Register.RPC, ++currentInstructionAddress);
             switch (Utils.getOptCode(instruction)) {
                 case 0:
-                    Processor.br(instruction);
+                    br(instruction);
                     break;
                 case 1:
-                    Processor.add(instruction);
+                    add(instruction);
                     break;
                 case 2:
-                    Processor.ld(instruction);
+                    ld(instruction);
                     break;
                 case 3:
-                    Processor.st(instruction);
+                    st(instruction);
                     break;
                 case 4:
-                    Processor.jsr(instruction);
+                    jsr(instruction);
                     break;
                 case 5:
-                    Processor.and(instruction);
+                    and(instruction);
                     break;
                 case 6:
-                    Processor.ldr(instruction);
+                    ldr(instruction);
                     break;
                 case 7:
-                    Processor.str(instruction);
+                    str(instruction);
                     break;
                 case 8:
-                    Processor.rti(instruction);
+                    rti(instruction);
                     break;
                 case 9:
-                    Processor.not(instruction);
+                    not(instruction);
                     break;
                 case 10:
-                    Processor.ldi(instruction);
+                    ldi(instruction);
                     break;
                 case 11:
-                    Processor.sti(instruction);
+                    sti(instruction);
                     break;
                 case 12:
-                    Processor.jmp(instruction);
+                    jmp(instruction);
                     break;
                 case 13:
-                    Processor.res(instruction);
+                    res(instruction);
                     break;
                 case 14:
-                    Processor.lea(instruction);
+                    lea(instruction);
                     break;
                 case 15:
-                    Processor.trap(instruction);
+                    trap(instruction);
                     break;
             }
         }
