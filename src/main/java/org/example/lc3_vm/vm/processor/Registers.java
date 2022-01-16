@@ -6,26 +6,15 @@ package org.example.lc3_vm.vm.processor;
  * RPC - регистр счетчика программы, указывает на адрес следующей инструкции в памяти.
  * RCND - условный регистр. Нужен для вейтвления.
  */
-public enum Register {
-    R0(0),
-    R1(1),
-    R2(2),
-    R3(3),
-    R4(4),
-    R5(5),
-    R6(6),
-    R7(7),
-    RPC(8),
-    RCND(9);
-
-    private final int position;
-
-    Register(int position) {
-        this.position = position;
-    }
-
-    public int getPosition() {
-        return this.position;
-    }
-
+public interface Registers {
+    char R0 = 0;
+    char R1 = 1;
+    char R2 = 2;
+    char R3 = 3;
+    char R4 = 4;
+    char R5 = 5;
+    char R6 = 6;
+    char R7 = 7;
+    char RPC = 8;
+    char RCND = 9;
 }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 import static org.example.lc3_vm.vm.VM.stopVM;
 import static org.example.lc3_vm.vm.processor.Processor.registerRead;
 import static org.example.lc3_vm.vm.processor.Processor.registerWrite;
-import static org.example.lc3_vm.vm.processor.Register.R0;
+import static org.example.lc3_vm.vm.processor.Registers.R0;
 
 public class TrapHandler {
 

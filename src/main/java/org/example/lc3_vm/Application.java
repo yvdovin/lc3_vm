@@ -12,8 +12,8 @@ import static org.example.lc3_vm.vm.memory.Memory.memoryWrite;
 public class Application {
 
     public static void main(String[] args) throws FileNotFoundException {
-        writeProgramIntoMemory(args[0]);
-        //writeProgramIntoMemory("C://research/lc3_vm/src/main/resources/br_v2.txt");
+        //writeProgramIntoMemory(args[0]);
+        writeProgramIntoMemory("C://research/lc3_vm/src/main/resources/br_v1.txt");
         startVM((char) 0x0);
     }
 

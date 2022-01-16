@@ -1,11 +1,9 @@
 package org.example.lc3_vm.vm.processor;
 
 
-import org.example.lc3_vm.vm.trap.TrapHandler;
-
 import static org.example.lc3_vm.vm.memory.Memory.memoryRead;
 import static org.example.lc3_vm.vm.memory.Memory.memoryWrite;
-import static org.example.lc3_vm.vm.processor.Register.*;
+import static org.example.lc3_vm.vm.processor.Registers.*;
 import static org.example.lc3_vm.vm.trap.TrapHandler.*;
 import static org.example.lc3_vm.vm.utils.Utils.*;
 
@@ -19,12 +17,12 @@ public class Processor {
     private final static int NUMBER_OF_REGISTERS = 10;
     private final static char[] registers = new char[NUMBER_OF_REGISTERS];
 
-    public static void registerWrite(Register register, char value) {
-        registers[register.getPosition()] = value;
+    public static void registerWrite(char register, char value) {
+        registers[register] = value;
     }
 
-    public static char registerRead(Register register) {
-        return registers[register.getPosition()];
+    public static char registerRead(char register) {
+        return registers[register];
     }
 
     /*
@@ -32,8 +30,8 @@ public class Processor {
      * с битами NZP(negative, zero, positive)
      */
     public static void br(char i) {
-        if ((char) (registers[RCND.getPosition()] & extractNZPBites(i)) > 0) {
-            registers[RPC.getPosition()] += extractLiteralValue(i, 9);
+        if ((char) (registers[RCND] & extractNZPBites(i)) > 0) {
+            registers[RPC] += extractLiteralValue(i, 9);
         }
     }
 
@@ -62,7 +60,7 @@ public class Processor {
      */
     public static void ld(char i) {
         char destReg = extractDestinationRegister(i);
-        registers[destReg] = memoryRead((char) (registers[RPC.getPosition()] + extractLiteralValue(i, 9)));
+        registers[destReg] = memoryRead((char) (registers[RPC] + extractLiteralValue(i, 9)));
         fillRCND(destReg);
     }
 
@@ -73,16 +71,16 @@ public class Processor {
     public static void st(char i) {
         char sourceReg = extractSourceRegisterSt(i);
         char offset = extractLiteralValue(i, 9);
-        memoryWrite((char) (registers[RPC.getPosition()] + offset), registers[sourceReg]);
+        memoryWrite((char) (registers[RPC] + offset), registers[sourceReg]);
     }
 
     /**
      * Переход выполнения подпрограммы
      */
     public static void jsr(char i) {
-        registers[R7.getPosition()] = registers[RPC.getPosition()];
-        registers[RPC.getPosition()] = (((i >> 10) & 1) == 1) ?
-                (char) (registers[RPC.getPosition()] + extractLiteralValue(i, 11)) :
+        registers[R7] = registers[RPC];
+        registers[RPC] = (((i >> 10) & 1) == 1) ?
+                (char) (registers[RPC] + extractLiteralValue(i, 11)) :
                 registers[extractBase(i)];
     }
 
@@ -144,7 +142,7 @@ public class Processor {
      */
     public static void ldi(char i) {
         char destReg = extractDestinationRegister(i);
-        registers[destReg] = memoryRead(memoryRead((char) (registers[RPC.ordinal()] + extractLiteralValue(i, 9))));
+        registers[destReg] = memoryRead(memoryRead((char) (registers[RPC] + extractLiteralValue(i, 9))));
         fillRCND(destReg);
     }
 
@@ -153,7 +151,7 @@ public class Processor {
      */
     public static void sti(char i) {
         char sourceReg = extractSourceRegisterSt(i);
-        char address = memoryRead((char) (registers[RPC.getPosition()] + extractLiteralValue(i, 9)));
+        char address = memoryRead((char) (registers[RPC] + extractLiteralValue(i, 9)));
         memoryWrite(address, registers[sourceReg]);
     }
 
@@ -161,7 +159,7 @@ public class Processor {
      * Изменяет значение RPC на некоторое значение из базы
      */
     public static void jmp(char i) {
-        registers[RPC.getPosition()] = registers[extractBase(i)];
+        registers[RPC] = registers[extractBase(i)];
     }
 
     public static void res(char i) {
@@ -174,7 +172,7 @@ public class Processor {
     public static void lea(char i) {
         char destReg = extractDestinationRegister(i);
         char literalValue = extractLiteralValue(i, 9);
-        registers[destReg] = (char) (registers[RPC.getPosition()] + literalValue);
+        registers[destReg] = (char) (registers[RPC] + literalValue);
         fillRCND(destReg);
     }
 
@@ -215,11 +213,11 @@ public class Processor {
      */
     static void fillRCND(char register) {
         if (registers[register] == 0) {
-            registers[RCND.getPosition()] = 1 << 1;
+            registers[RCND] = 1 << 1;
         } else if ((registers[register] >> 15) == 0) {
-            registers[RCND.getPosition()] = 1 << 0;
+            registers[RCND] = 1 << 0;
         } else {
-            registers[RCND.getPosition()] = 1 << 2;
+            registers[RCND] = 1 << 2;
         }
     }
 }
