@@ -45,7 +45,7 @@ public class Utils {
      * конвертирует его в char.
      */
     public static char extractLiteralValue(char instruction, int offset) {
-        char literalValue = (char) (instruction & 0x1F);
+        char literalValue = (char) (instruction & (0xFFFF >> (16 - offset)));
         return convertToChar(literalValue, offset);
     }
 
