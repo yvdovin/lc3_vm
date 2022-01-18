@@ -9,7 +9,7 @@ import static org.example.lc3_vm.vm.processor.Registers.R0;
 
 public class TrapHandler {
 
-    private final static Scanner scanner = new Scanner(System.in);
+    public final static Scanner scanner = new Scanner(System.in);
 
     public static void tgetc(char i) {
         registerWrite(R0, (char) scanner.nextInt());

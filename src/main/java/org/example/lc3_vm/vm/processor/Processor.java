@@ -177,10 +177,12 @@ public class Processor {
     }
 
     public static void trap(char i) {
+
         char trapVector = (char) ((i & 0x1F) + 0x20);
         switch (trapVector) {
             case (0x20):
-                tgetc(i);
+                registers[RPC] = memoryRead((char) 0x0020);
+                //tgetc(i);
                 break;
             case (0x21):
                 tout(i);
@@ -198,7 +200,9 @@ public class Processor {
                 thalt(i);
                 break;
             case (0x26):
-                tinu16(i);
+                //tinu16(i);
+                registers[R7] = (char) (registers[RPC]);
+                registers[RPC] = memoryRead((char) 0x0020);
                 break;
             case (0x27):
                 toutu16(i);

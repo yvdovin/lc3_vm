@@ -1,13 +1,16 @@
 package org.example.lc3_vm.vm;
 
 import org.example.lc3_vm.vm.processor.Processor;
+import org.example.lc3_vm.vm.trap.TrapHandler;
 import org.example.lc3_vm.vm.utils.Utils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import static org.example.lc3_vm.vm.memory.Memory.memoryRead;
+import static org.example.lc3_vm.vm.memory.Memory.memoryWrite;
 import static org.example.lc3_vm.vm.processor.Processor.registerRead;
 import static org.example.lc3_vm.vm.processor.Processor.registerWrite;
 import static org.example.lc3_vm.vm.processor.Registers.RPC;
@@ -51,6 +54,17 @@ public class VM {
             char instruction = memoryRead(currentInstructionAddress);
             registerWrite(RPC, ++currentInstructionAddress);
             invokeInstruction(instruction);
+            try {
+                if (System.in.available() > 0) {
+                    int i = TrapHandler.scanner.nextInt();
+                    memoryWrite((char) 0xFE02, (char) 0xFFFF);
+                    memoryWrite((char) 0xFE04, (char) i);
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //bit синхронизации - бит дисплея
         }
     }
 
